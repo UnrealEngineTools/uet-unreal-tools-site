@@ -1,7 +1,7 @@
 # Unreal Tools — landing page
 
-The hub at **unrealtools.com** — an entry point into Conduit and future tools for
-Unreal Engine developers.
+The hub at **unrealtools.com** — an entry point into Conduit, GeoScape and Ultimate
+Deck Building Toolkit for Unreal Engine developers.
 
 Static homepage plus the Ultimate Deck Building Toolkit documentation at
 `/deck-toolkit/`. Generated HTML is committed, so serving the site needs no build step.
@@ -39,8 +39,8 @@ Independent project, not affiliated with or endorsed by Epic Games or Unreal Eng
 ## Deploy / update
 
 Hosted on **Cloudflare Pages** (project `unrealtools-site`, domains `unrealtools.com` + `www`)
-via wrangler **direct upload** — pushing this repo does NOT auto-deploy. Run wrangler from a
-non-repo dir so its `.wrangler` cache never lands in the repo:
+via **direct upload** — pushing this repo does NOT auto-deploy. The `.wrangler`
+cache and staged public files are ignored by Git. From this repository:
 
 ```bash
 python scripts/stage_site.py
@@ -55,6 +55,18 @@ root: `.git`, scripts and local artifacts are not public site assets.
 The existing CLI OAuth session may lack `pages:write`; the already signed-in Pages
 dashboard supports direct upload without changing CLI access. Use the existing
 `unrealtools-site` project, not a new Pages project.
+
+### Verified production deployment
+
+On September 10, 2026, site content at commit `7c2eb17` was deployed through the
+existing Cloudflare dashboard (21 public files). Production deployment:
+`064dd96b-9cba-4b6d-8b6b-26622bdc5ab7`.
+
+Live documentation: https://www.unrealtools.com/deck-toolkit/
+
+Production checks confirmed the homepage entry, documentation navigation, search,
+loaded screenshots and correct UTF-8 text. Local checks covered all 12 HTML pages,
+local links/fragments, all 11 search topics, and desktop/mobile interactions.
 
 ### Custom domain note (apex)
 
