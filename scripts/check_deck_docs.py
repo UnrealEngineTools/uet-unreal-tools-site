@@ -2,7 +2,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit, unquote
-import json
+import json, html
 ROOT=Path(__file__).resolve().parents[1]
 class Page(HTMLParser):
     def __init__(self,text):
@@ -16,6 +16,8 @@ class Page(HTMLParser):
 files=[ROOT/'index.html',*(ROOT/'deck-toolkit').rglob('index.html')]
 pages={f:Page(f.read_text(encoding='utf-8')) for f in files}
 for f,p in pages.items():
+    rendered=html.unescape(f.read_text(encoding='utf-8'))
+    assert not any(c in rendered for c in ('\u00c2','\u00c3','\u00e2')),f'Possible UTF-8 mojibake: {f}'
     assert len(p.ids)==len(set(p.ids)),f'Duplicate anchor: {f}'
     assert p.h1==1,f'Expected one main heading: {f}'
     for link in p.links:
