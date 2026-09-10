@@ -1,2 +1,5 @@
 .wrangler/
 node_modules/
+dist/
+site-upload.zip
+__pycache__/
