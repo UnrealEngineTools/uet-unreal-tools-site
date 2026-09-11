@@ -99,3 +99,7 @@ cert provisions in a few minutes:
 |---|---|---|---|
 | CNAME | `@` | `unrealtools-site.pages.dev` | Proxied |
 | CNAME | `www` | `unrealtools-site.pages.dev` | Proxied |
+
+## Unreleased products
+
+Save Compatibility Lab and Ultimate Deck Building Toolkit show a non-interactive Coming soon label on the hub and every documentation page. Keep their docs accessible. Add purchase links only after the public storefront page is live, using the actual public URL from Fab's View on Fab action, not the publisher portal ID. Update the documentation generators alongside their output.
