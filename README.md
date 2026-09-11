@@ -69,6 +69,16 @@ dashboard supports direct upload without changing CLI access. Use the existing
 
 ### Verified production deployment
 
+On September 11, 2026, Save Compatibility Lab was added at source commit `ae4815b`
+and deployed through the existing Cloudflare dashboard (25 public files).
+Production deployment: `d5c3d8c1-510e-4625-a550-1120e0454097`.
+
+Live guide: https://www.unrealtools.com/save-compatibility-lab/
+
+Verified the live homepage entry, guide navigation, correct Fab/download targets,
+and loaded cover/workbench images in the browser. All 13 local HTML pages passed
+the link/fragment checker; the archive matched the exact public file allowlist.
+
 On September 10, 2026, site content at commit `7c2eb17` was deployed through the
 existing Cloudflare dashboard (21 public files). Production deployment:
 `064dd96b-9cba-4b6d-8b6b-26622bdc5ab7`.
