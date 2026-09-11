@@ -1,10 +1,11 @@
 # Unreal Tools — landing page
 
 The hub at **unrealtools.com** — an entry point into Conduit, GeoScape and Ultimate
-Deck Building Toolkit for Unreal Engine developers.
+Deck Building Toolkit and Save Compatibility Lab for Unreal Engine developers.
 
 Static homepage plus the Ultimate Deck Building Toolkit documentation at
-`/deck-toolkit/`. Generated HTML is committed, so serving the site needs no build step.
+`/deck-toolkit/` and Save Compatibility Lab at `/save-compatibility-lab/`.
+Generated HTML is committed, so serving the site needs no build step.
 Deployed via Cloudflare Pages.
 
 ## Local preview
@@ -37,6 +38,16 @@ host classes. Documentation does not publish the paid source archive.
 Independent project, not affiliated with or endorsed by Epic Games or Unreal Engine.
 
 ## Deploy / update
+
+Save Compatibility Lab documentation is built from the released 1.0.0 HTML guide
+in `scripts/content/save-lab-guide-1.0.0.html`. Run
+`python scripts/build_save_lab_docs.py` after changing its website shell. The
+homepage features the original Fab cover, and the guide includes the actual editor
+capture, section navigation, example project download and standalone guide link.
+The Fab listing is pending approval; both entry points describe that status.
+The paid source archive is not linked or included in the public site.
+
+Run `python scripts/check_deck_docs.py` to check all 13 public HTML pages before staging.
 
 Hosted on **Cloudflare Pages** (project `unrealtools-site`, domains `unrealtools.com` + `www`)
 via **direct upload** — pushing this repo does NOT auto-deploy. The `.wrangler`

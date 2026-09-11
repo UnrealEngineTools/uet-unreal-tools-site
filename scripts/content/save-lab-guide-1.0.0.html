@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Save Compatibility Lab — User Guide</title><style>body{margin:0;background:#080c0d;color:#f3f4ed;font:17px/1.65 system-ui}main{max-width:1040px;margin:60px auto;padding:0 32px}h1{font-size:48px;line-height:1.1}h1,h2,h3,a{color:#d9b56c}h2{margin-top:54px}pre{background:#14201d;padding:22px;border-radius:8px;overflow:auto}code{font-size:.9em}table{border-collapse:collapse;width:100%}th,td{padding:14px;border:1px solid #34433d;text-align:left}header{letter-spacing:4px;font-size:14px;color:#d9b56c;border-bottom:1px solid #34433d;padding-bottom:22px}</style><main><header>HUNGRY GHOST / PRODUCT DOCUMENTATION</header><h1>Save Compatibility Lab</h1>
+<p>Version 1.0.0 · Hungry Ghost · Unreal Engine 5.8 · Windows</p>
+<p>Protect the progress your players earned. Keep historical save fixtures, load them with current code, and compare the resulting state with an explicitly approved baseline.</p>
+<h2>What is included</h2>
+<ul>
+<li>A native editor workbench under <strong>Tools → Save Compatibility Lab</strong>.</li>
+<li>Suite data assets and portable JSON manifests.</li>
+<li>A native Unreal SaveGame adapter and an extensible Blueprint/C++ adapter interface.</li>
+<li>Typed snapshots, field differences, explicit rename rules, ignored paths, floating-point tolerance and assertions.</li>
+<li>A commandlet with exit codes for continuous integration.</li>
+<li>JSON and standalone HTML reports, source fingerprints and isolated fixture copies.</li>
+<li>Example schema migrations and an intentional inventory regression.</li>
+<li>Full C++ source and Unreal automation tests.</li>
+</ul>
+<p>The tool tests the state your adapter returns. It does not automatically discover a game&#39;s save format or migrations, repair broken saves, or restore a world.</p>
+<h2>Install and try the example</h2>
+<ol>
+<li>Install the plugin for UE 5.8. For a source installation, put the <code>SaveCompatibilityLab</code> folder under your project&#39;s <code>Plugins</code> directory, regenerate project files, and build the Development Editor target with the UE 5.8 supported C++ toolchain.</li>
+<li>Enable <strong>Save Compatibility Lab</strong> in the Plugins window and restart the editor if requested.</li>
+<li>Open <strong>Tools → Save Compatibility Lab</strong> and choose <strong>Create examples</strong>.</li>
+<li>Expect three passing cases and one failing case. The deliberate failure removes a potion from the inventory. Select that row to inspect the changed array count and missing item.</li>
+<li>Choose <strong>Open report</strong> to inspect the same evidence in a browser.</li>
+</ol>
+<p>Example creation always makes a new folder below <code>Saved/SaveCompatibilityLab</code>. It never replaces an earlier fixture set. The sample adapter migrates version 1 JSON&#39;s <code>coins</code> into current <code>Gold</code>; version 2 uses <code>gold</code>. Currency is serialized as a string to retain 64-bit precision. A separate native fixture uses an actual Unreal GVAS <code>.sav</code> file.</p>
+<h2>Author a regression suite</h2>
+<p>Keep representative saves from your released builds in version control or a private fixture store. Include different player progression stages, inventory contents, quest states and schema versions. Use synthetic or scrubbed player data.</p>
+<p><strong>Add save fixture</strong> adds a case to the current suite. In the right-hand panel, set its name, save path, adapter class, baseline path and rules. Use <strong>Run suite</strong> to refresh cases and results after edits.</p>
+<p>For a persistent editor asset, create <strong>Miscellaneous → Data Asset → SaveLabSuite</strong> in the Content Browser. Select it and choose <strong>Load selected asset</strong> in the workbench. Save changes using the editor&#39;s Save All command. For a portable file, use <strong>Export suite</strong>. <strong>Import suite</strong> reads the file into an editable in-memory suite; export it again to persist changes.</p>
+<p>Asset fixture roots are relative to the project directory. JSON manifest fixture roots are relative to the manifest directory. Absolute paths are also supported. Individual save and baseline paths can be absolute or relative to the fixture root. Export attempts to make the root relative to the exported manifest.</p>
+<h3>Approve a baseline deliberately</h3>
+<p>A baseline represents the expected <strong>post-load, post-migration state</strong>. Capture it with a known-good build and loader, review it, then commit the file. Do not regenerate it automatically when a test fails.</p>
+<p>Select a fixture row and choose <strong>Capture baseline for selected case</strong>. Choose a new <code>.json</code> filename. This command copies the save into a fresh capture folder, invokes the case&#39;s adapter, writes the snapshot and assigns the new path to the case. It refuses to overwrite an existing baseline. Review the result before treating it as approved, then save the suite asset or export its manifest.</p>
+<p>The lower-level Blueprint/C++ <code>Write Snapshot</code> API writes its specified destination and can overwrite a file; callers are responsible for approval and file management.</p>
+<h2>Connect your actual game loader</h2>
+<p>Each case creates a fresh adapter object. <code>Load And Capture</code> receives the absolute path of an <strong>isolated copy</strong> of the historical save. It returns success, a typed snapshot and an error message.</p>
+<p>Implement a child of <code>SaveLabAdapter</code>. Your implementation should:</p>
+<ol>
+<li>Read the supplied file rather than a live player save slot.</li>
+<li>Invoke your project&#39;s real deserialization and migration code.</li>
+<li>Validate the migrated state.</li>
+<li>Return a snapshot of the state that matters to compatibility.</li>
+</ol>
+<p>The function is synchronous. Latent Blueprint operations, asynchronous world restoration and operations that require a running game world need a project-specific harness. The commandlet does not boot gameplay or call your GameInstance save subsystem automatically.</p>
+<h3>Blueprint integration</h3>
+<p>Create a Blueprint class derived from <code>SaveLabAdapter</code>, override <strong>Load And Capture</strong>, and call your project&#39;s synchronous load/migrate function with <code>Isolated Save File</code>. Feed the resulting state UObject into <strong>Capture Object</strong>, or construct <code>SaveLabSnapshot.Fields</code> explicitly. Return false with an actionable error if loading or migration fails. Assign this Blueprint class in each suite case.</p>
+<p>Blueprint-only projects can use an installed, compiled plugin. A source-only installation requires the C++ toolchain.</p>
+<h3>C++ integration</h3>
+<p>Add <code>SaveCompatibilityLab</code> to your module dependencies. Derive a <code>UCLASS</code> from <code>USaveLabAdapter</code>, declare the override below in its header, and call your own loader in the implementation:</p>
+<pre><code class="language-cpp">bool UMySaveAdapter::LoadAndCapture_Implementation(
+    const FString&amp; IsolatedSaveFile,
+    FSaveLabSnapshot&amp; Snapshot,
+    FString&amp; Error)
+{
+    // Consume the supplied copy and run the real migration path.
+    UMyCurrentSaveState* State = MyLoadAndMigrate(IsolatedSaveFile, Error);
+    if (!State) return false;
+    return USaveLabLibrary::CaptureObject(State, true, Snapshot, Error);
+}
+</code></pre>
+<p><code>MyLoadAndMigrate</code> and <code>UMyCurrentSaveState</code> are placeholders for your project&#39;s code. The included <code>USaveLabExampleAdapter</code> is a complete executable reference.</p>
+<h3>Native adapter scope</h3>
+<p><code>SaveLabNativeAdapter</code> supports Unreal GVAS SaveGame files through <code>UGameplayStatics::LoadGameFromMemory</code>. The original SaveGame class must be available in the current project, with appropriate redirects when classes move or are renamed.</p>
+<p>It captures current reflected properties on the loaded SaveGame object, excluding transient and deprecated fields. It does not automatically invoke migrations stored in a GameInstance, subsystem or separate load manager. Use your own adapter for those, encrypted/compressed/custom formats, third-party save plugins, or world restoration.</p>
+<p>Fixtures and adapter code are trusted test inputs. File copies isolate the input files; adapter execution runs inside the Unreal process and is not a security sandbox or crash-isolated worker. A crashing game loader can terminate a suite. A custom adapter that ignores the supplied path can still write to live slots.</p>
+<h2>Snapshot paths and types</h2>
+<p>Snapshots use format version 1. A <code>fields</code> map contains typed values encoded as strings:</p>
+<pre><code class="language-json">{
+  &quot;formatVersion&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;/Gold&quot;: {&quot;type&quot;: &quot;integer:int64&quot;, &quot;value&quot;: &quot;9007199254740993&quot;},
+    &quot;/Health&quot;: {&quot;type&quot;: &quot;float&quot;, &quot;value&quot;: &quot;87.5&quot;},
+    &quot;/Inventory&quot;: {&quot;type&quot;: &quot;array&quot;, &quot;value&quot;: &quot;2&quot;},
+    &quot;/Inventory/0&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;value&quot;: &quot;IronSword&quot;},
+    &quot;/Inventory/1&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;value&quot;: &quot;HealthPotion&quot;}
+  }
+}
+</code></pre>
+<p>Reflection captures structs recursively, arrays by index, maps by exported key and sets by exported element. Container fields retain their size; structs retain their type. Paths escape <code>/</code> as <code>~1</code> and <code>~</code> as <code>~0</code>. Custom map keys should have unique, stable text exports; collisions are errors. Object references use their exported reference representation, not recursive object/world traversal. Use a custom snapshot for stable IDs or normalized unordered collections.</p>
+<p><code>Capture Object</code> can restrict top-level properties to those marked <code>SaveGame</code>. Nested reflected members of an included struct are traversed. Built-in native SaveGame capture includes nontransient reflected properties because Unreal&#39;s default SaveGame serialization is not restricted to the SaveGame flag.</p>
+<p>Limits: 32 MiB per input JSON/save file, 100,000 snapshot fields, nesting depth 32 for reflection, 4,096 characters per path, and 1,048,576 characters per value. Empty snapshots are rejected. Nonfinite reflected floats are rejected.</p>
+<h2>Comparison rules and assertions</h2>
+<p>By default, missing fields, added fields, changed values and changed types fail.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ignore Paths</td>
+<td>An exact path, or descendants of a path ending in <code>/*</code>. To ignore an array&#39;s count and contents, add both <code>/Inventory</code> and <code>/Inventory/*</code>. Differences remain visible as allowed.</td>
+</tr>
+<tr>
+<td>Renamed Paths</td>
+<td>An exact old baseline path mapped to a current path. Both must exist; colliding targets are errors. For a renamed struct, map its container and child paths explicitly.</td>
+</tr>
+<tr>
+<td>Float Tolerance</td>
+<td>Absolute tolerance for <code>float</code> values only. Integer values remain exact strings regardless of tolerance.</td>
+</tr>
+<tr>
+<td>Allow Added Fields</td>
+<td>Permit fields absent from the baseline. Additions remain in the report.</td>
+</tr>
+<tr>
+<td>Exists / Absent</td>
+<td>Require a current path to exist or be absent.</td>
+</tr>
+<tr>
+<td>Equals</td>
+<td>Compare the current value string exactly. Use this for precise 64-bit currency and identifiers.</td>
+</tr>
+<tr>
+<td>Number Range</td>
+<td>Inclusive minimum/maximum for numeric types, using double precision. Use Equals for exact integers beyond double&#39;s precision.</td>
+</tr>
+</tbody></table>
+<p>Assertions evaluate current state independently of ignored paths. An ignored inventory difference does not suppress a failed inventory assertion. An empty suite, an unsupported suite version, or a suite with every case disabled cannot pass.</p>
+<h2>Continuous integration</h2>
+<p>Run the commandlet from your project using its current build:</p>
+<pre><code class="language-bat">UnrealEditor-Cmd.exe MyGame.uproject -run=SaveCompatibilityLab -Manifest=C:/Fixtures/suite.json -Output=C:/Reports/SaveLab -unattended -NullRHI -nop4
+</code></pre>
+<p>Or load a suite asset:</p>
+<pre><code class="language-bat">UnrealEditor-Cmd.exe MyGame.uproject -run=SaveCompatibilityLab -Suite=/Game/Tests/DA_SaveSuite.DA_SaveSuite -Output=C:/Reports/SaveLab -unattended -NullRHI -nop4
+</code></pre>
+<p>Generate the teaching fixture set:</p>
+<pre><code class="language-bat">UnrealEditor-Cmd.exe MyGame.uproject -run=SaveCompatibilityLab -CreateExamples -Output=C:/Fixtures/Examples -unattended -NullRHI -nop4
+</code></pre>
+<p>Exit codes: <strong>0</strong> = suite passed (or example generation succeeded); <strong>1</strong> = failed/invalid suite execution; <strong>2</strong> = configuration, manifest, asset-loading or report-write error. Treat every nonzero code as a failed CI job. An Unreal process crash may return a different nonzero code.</p>
+<p>Archive the unique run directory. It includes <code>report.json</code>, <code>report.html</code>, and one UUID folder per executed fixture containing its copy and <code>captured.json</code> when capture succeeds. Reports include engine version, UTC creation time, duration, source SHA-1 fingerprint, differences and assertion failures. SHA-1 is a reproducibility fingerprint, not a security signature.</p>
+<p>The tool does not automatically delete reports or fixture copies. Apply your own retention policy to <code>Saved/SaveCompatibilityLab</code> and CI artifacts. These files can contain the saved state; share only intended data.</p>
+<h2>Performance and supported scope</h2>
+<p>There is no runtime tick, background scanner, network service or telemetry in the plugin. Capture and suite runs are explicit synchronous operations on the calling thread. Large suites can block the editor; run batch validation in CI. Custom loader costs are project-dependent.</p>
+<p>Supported target: UE 5.8, Win64. The runtime library compiles for game targets; the workbench and commandlet require the editor module. Other engines/platforms are not claimed. No third-party libraries, paid dependencies, Blueprint assets, mesh assets, audio, or game-specific content are required.</p>
+<h2>Troubleshooting</h2>
+<ul>
+<li><strong>Native save cannot load:</strong> ensure its SaveGame class exists and check class redirects. For custom formats use the matching adapter.</li>
+<li><strong>Everything shows added or missing:</strong> inspect baseline and current path names and whether you used SaveGame-only capture consistently.</li>
+<li><strong>Only an array count differs after ignoring children:</strong> also ignore the container path if this change is intentional.</li>
+<li><strong>The suite unexpectedly passes:</strong> verify the adapter calls the real migration path; review ignores, renames and baselines. A test can only validate captured state.</li>
+<li><strong>CLI cannot find a Blueprint adapter:</strong> ensure its asset exists in the project and the manifest references the correct class.</li>
+<li><strong>The intentional sample fails:</strong> expected. Its missing potion demonstrates a detected regression; remove that case to create a passing sample CI job.</li>
+<li><strong>Source installation cannot compile:</strong> use UE 5.8 and its supported Visual Studio toolchain; compile Development Editor and restart before opening the workbench.</li>
+</ul>
+<p>Support: contact Hungry Ghost through the publisher contact information on Fab. Include plugin/engine version, a scrubbed reproduction suite, the relevant error and expected behavior.</p>
+</main></html>
