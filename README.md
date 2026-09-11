@@ -103,3 +103,25 @@ cert provisions in a few minutes:
 ## Unreleased products
 
 Save Compatibility Lab and Ultimate Deck Building Toolkit show a non-interactive Coming soon label on the hub and every documentation page. Keep their docs accessible. Add purchase links only after the public storefront page is live, using the actual public URL from Fab's View on Fab action, not the publisher portal ID. Update the documentation generators alongside their output.
+
+
+## Ultimate Road Tool 1.2.0
+
+The homepage features Ultimate Road Tool and its actual Unreal road artwork.
+`/ultimate-road-tool/` contains the released guide in the site documentation shell,
+with five navigable chapters, FAQ, installation, controls, materials, road paint,
+turn pockets, geographic example instructions and data attribution.
+
+The source guide is preserved in `scripts/content/road-tool-guide-1.2.0.html`.
+Regenerate with `python scripts/build_road_docs.py`; run
+`python scripts/check_deck_docs.py` and `python scripts/stage_site.py` before deploy.
+The checker now covers all 14 HTML pages. The staging allowlist contains 30 public
+files. Source scripts and the paid plugin archive are not deployed.
+
+The page links the verified public 1.2.0 example and standalone guide on R2.
+It describes the Fab submission as pending review; replace that status with the
+verified public storefront URL after publication. Do not use a publisher portal ID.
+
+Validated desktop and 390px mobile layout, documentation anchors, expandable FAQ,
+and loaded cover images. Geographic limitations and plugin installation requirements
+are explicit next to the example download.

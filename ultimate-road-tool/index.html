@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ultimate Road Tool — Documentation | Unreal Tools</title>
+<meta name="description" content="Build editable road networks in Unreal Engine 5.8. Ultimate Road Tool 1.2.0 installation, road editor, lanes, crossings, surface wear and experimental geographic city guide.">
+<meta property="og:title" content="Ultimate Road Tool | Unreal Tools">
+<meta property="og:description" content="Your city starts here. Editable roads, connected junctions, five surface styles and customizable road markings.">
+<meta property="og:image" content="https://www.unrealtools.com/ultimate-road-tool/assets/cover.jpg">
+<meta property="og:type" content="website"><meta name="theme-color" content="#09090c">
+<link rel="canonical" href="https://www.unrealtools.com/ultimate-road-tool/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/docs.css"></head>
+<body><a class="skip" href="#content">Skip to documentation</a>
+<header class="site-header"><a class="brand" href="/">Unreal Tools</a><nav aria-label="Product navigation"><a href="/#tools">All tools</a><a href="#install-and-start">Get started</a><a href="#downloads">Downloads</a></nav></header>
+<div class="layout"><aside class="contents"><details open><summary>On this page</summary><nav aria-label="Documentation sections"><a href="#content">Overview</a><a href="#downloads">Example &amp; downloads</a><a href="#getting-started">Getting started</a><a href="#road-editor-and-optional-surface-wear">Road Editor and optional surface wear</a><a href="#surface-modules-and-materials">Surface modules and materials</a><a href="#lane-layouts-and-road-paint">Lane layouts and road paint</a><a href="#ultimate-road-tool-1-2-0-experimental-gis-example">Geographic city example</a><a href="#faq">Frequently asked questions</a></nav></details></aside>
+<main id="content"><section class="hero"><p class="eyebrow">HUNGRY GHOST / ULTIMATE ROAD TOOL</p>
+<h1>Your city starts here.</h1><p class="lead">Draw a street. Shape a network. Keep every road editable.</p>
+<p>Ultimate Road Tool brings spline roads, connected junctions, independent sidewalks and configurable lane paint into a dedicated Unreal editor mode. Start from five surface styles, extend roads with successive clicks, and adjust widths, crossings and wear as your city takes shape.</p>
+<div class="pills"><span>Version 1.2.0</span><span>Unreal Engine 5.8</span><span>Windows / Win64</span><span>Five surface styles</span></div>
+<div class="actions"><a class="button" href="#install-and-start">Read the guide ↓</a><a class="button secondary" href="#ultimate-road-tool-1-2-0-experimental-gis-example">Explore the city example</a></div>
+<p class="muted" id="fab-status">Coming soon to Fab. Version 1.2.0 has been submitted for review; documentation is available now.</p>
+<figure><img src="assets/cover.jpg" width="1920" height="1080" fetchpriority="high" alt="Ultimate Road Tool: editable roads and a marked intersection rendered inside Unreal Engine"><figcaption>Actual Unreal Engine road imagery from the supplied tool and examples.</figcaption></figure>
+<div class="feature-grid"><div><h2>Build continuously</h2><p>Extend from an anchor, keep clicking, then connect to another road. Switch between a full panel and compact toolbar.</p></div><div><h2>Make it yours</h2><p>One-way or two-way layouts, turn pockets, stop approaches, sidewalk widths and optional surface grime.</p></div><div><h2>Explore city scale</h2><p>A 1,200-road authored map and a separate experimental 5,850-road geographic example. Each street stays editable.</p></div></div>
+<div class="downloads"><h2 id="downloads">Example &amp; downloads</h2><p><a href="https://pub-5f5c0d0b15df417e9653e1f4329e3269.r2.dev/ultimate-road-tool-builds/1.2.0/UltimateRoadTool_Example_UE5.8.zip">Download the UE 5.8 example project ZIP · 760 MiB ↗</a></p><p>Requires Ultimate Road Tool installed separately. Open <code>UltimateRoadTool_Example.uproject</code>; it starts in the smaller Markings showcase. For the geographic network, open <code>/Game/GIS/Maps/L_CapeTown_Release_v120</code>.</p><p>The city loads as one map and requires substantial memory and several minutes to open. Begin with the smaller examples; see <a href="#experimental-scope">the geographic example's scope and performance notes</a>.</p><p><a href="https://pub-5f5c0d0b15df417e9653e1f4329e3269.r2.dev/ultimate-road-tool-builds/1.2.0/UltimateRoadTool_UserGuide.html">Open the standalone 1.2.0 user guide ↗</a></p></div></section>
+<article><h2 id="getting-started">Getting started</h2><h3 id="install-and-start">Install and start</h3>
+<ol>
+<li>Install through Fab, or copy StreetSystem into your project's Plugins directory for a source installation.</li>
+<li>Enable <strong>Ultimate Road Tool</strong> in Edit &gt; Plugins and restart. Geometry Scripting and ZoneGraph are required engine plugins, declared in the descriptor.</li>
+<li>Enable <strong>Show Plugin Content</strong> in the Content Browser. Open <code>/StreetSystem/Maps/L_StreetSystem_SurfaceShowcase</code> for surfaced examples or <code>/StreetSystem/Maps/L_StreetSystem_Examples</code> for basic widths and grades.</li>
+<li>Open <strong>Road Editor</strong> from the mode selector, or run <code>Street.Editor</code> in Unreal's console. Tab switches between the full panel and compact bottom toolbar.</li>
+<li>Choose a profile, press N, and click start and end positions. Press E, choose a road anchor, then keep clicking to extend. Esc finishes; Ctrl+Z undoes one section. Right mouse camera navigation retains Unreal's normal keys.</li>
+</ol>
+<p>Windows C++ tools compatible with UE 5.8 are required for compiling source and packaging games, including Blueprint-only projects. No Blender installation, external service, paid asset or subscription is required to use the supplied Unreal content.</p>
+<h3 id="controls">Controls</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Road tool reference table"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Key</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Select</td>
+<td>Q</td>
+<td>Select roads; edit dots with the transform gizmo.</td>
+</tr>
+<tr>
+<td>New road</td>
+<td>N</td>
+<td>Click two positions for a standalone road.</td>
+</tr>
+<tr>
+<td>Extend</td>
+<td>E</td>
+<td>Choose an anchor once, then click successive destinations.</td>
+</tr>
+<tr>
+<td>Join</td>
+<td>C</td>
+<td>Choose a source anchor and valid snapped destination.</td>
+</tr>
+<tr>
+<td>Add node</td>
+<td>I</td>
+<td>Click the centerline to insert a shape-preserving node.</td>
+</tr>
+<tr>
+<td>Snapping</td>
+<td>S</td>
+<td>Toggle snapping; set radius in the full panel.</td>
+</tr>
+<tr>
+<td>Finish/cancel</td>
+<td>Esc</td>
+<td>Discard pending preview; retain placed sections.</td>
+</tr>
+<tr>
+<td>Compact/full</td>
+<td>Tab</td>
+<td>Change view while preserving the active placement.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The full panel exposes profiles, road width, independent sidewalk widths and wear. Widths are in meters; zero disables an individual sidewalk. Extensions inherit source profile and overrides. Snapping uses the target road elevation. Invalid previews explain angle, grade or junction-space constraints.</p>
+<p>Outside Road Editor, selecting a road shows its dots. Hover the cyan centerline and click the green plus to insert a node. Alt-drag previews a branch; E is the recommended continuous extension workflow. Drag a free endpoint onto another road to move and join it. Branching into a road interior splits and retains its curve pieces. One Undo restores the operation.</p>
+<h3 id="surfaces-and-customization">Surfaces and customization</h3>
+<p>Five editable profiles are included: Urban, Residential, Industrial, Boulevard and Heritage. Each has original road, left/right curb and left/right sidewalk modules. Default asphalt uses ambientCG Asphalt 015. Sidewalks use Poly Haven Brushed Concrete 04 and Rock Embedded Tiles; Asphalt 02 is an optional cracked variant. Road-aligned mapping follows the spline. Generated junctions include sidewalk corners, underside and perimeter fascia.</p>
+<p>Roads inherit profile wear. Disable <strong>Use Profile Defaults</strong> to override Grime, Edge Dirt and Tire Wear from 0 (clean) to 1. Junctions average road grime; directional tire wear and edge dirt remain on road arms. Wear updates primitive data without creating material instances or rebuilding geometry. Call the wear settings object's <code>Apply()</code> after changes made through code.</p>
+<p>Original Blender/FBX sources are included under SourceAssets. Scans are CC0 with source credits and conversion records. Credits describe provenance and impose no additional product license.</p>
+<h3 id="maps">Maps</h3>
+<ul>
+<li>SurfaceShowcase: surfaced editable roads, curves and graded connections.</li>
+<li>Markings: editable lane layouts, stop streets, crossings, turn pockets and one-way examples.</li>
+<li>Examples: basic modules, widths and flat/graded junction fixtures.</li>
+<li>City_Editable_v002: 1,200 editable roads and 625 junctions across roughly 3.8 km. This stress example has approximately 20,000 components. Start with a smaller map on constrained hardware. It is not a baked or streaming solution.</li>
+</ul>
+<h3 id="scope-and-limits">Scope and limits</h3>
+<p>Supported: <strong>UE 5.8, Windows editor and Win64 games</strong>. Other engine versions and platforms are unvalidated. Network replication is not implemented. Modules: StreetSystemRuntime (Runtime), StreetSystemEditor (Editor). Interactive authoring is editor-only.</p>
+<p>Connections support open roads at unit scale, up to 1,024 spline points and 2–8 junction arms. Branches need 20 degrees between arms, at most 30 percent grade, at most 50 m setback, and 2 m retained approach beyond a junction. Extend draws a straight connector. Bound endpoint reconnection, closed loops, automatic curved slip roads and unrestricted interchange footprints are unsupported.</p>
+<p>Slab undersides do not generate bridge beams or supports. ZoneGraph guides are an integration starting point. Mass crowds, vehicle simulation, signal phases, pedestrian queues, physical traffic-sign placement and arbitrary decal painting are not implemented. Lane layouts and painted arrows do not automatically configure traffic routing. Baked road LODs, World Partition integration and unlimited city performance are not claimed.</p>
+<h3 id="lanes-markings-and-turn-pockets">Lanes, markings and turn pockets</h3>
+<p>Roads generate paint from profile settings, with per-road overrides in the Road Editor. Choose lane counts <strong>Along spline</strong> and <strong>Against spline</strong>, then <strong>Apply lane counts &amp; road width</strong>. Either direction can have zero lanes for a one-way road; each direction supports up to 12. This replaces the lane list and sets the carriageway width. Customize individual lane use, arrows and separators afterwards.</p>
+<p>Configure stop lines, STOP lettering and zebra crossings independently at each approach. Paint uses shared white/yellow materials on a combined road mesh, so it follows the road surface and does not project onto nearby objects. Two-road connectors continue matching lane and edge markings; extra lane separators end within unequal-width transitions.</p>
+<p>Enable <strong>Left turn</strong> or <strong>Right turn</strong> under the start/end approach to add physical turn pockets. Width, storage and taper are in metres. Left/right follows arriving traffic. Curbs, sidewalks and paint follow the widening. Short approaches shorten pockets automatically and omit symbols that cannot fit. Roads shorter than 16 m do not generate pockets. These are widened approach lanes; separate bypass roads and traffic islands are not generated.</p>
+<p>See <a href="#lane-layouts-and-road-paint">Markings guide</a> for settings and limitations. Road paint is visual authoring; national road-standard compliance and traffic simulation are not implied.</p>
+<p>See <a href="#road-editor-and-optional-surface-wear">EditorMode guide</a> for authoring and wear, and <a href="#surface-modules-and-materials">SurfaceKits guide</a> for module dimensions, mapping and customization.</p>
+<h3 id="new-in-1-2-0">New in 1.2.0</h3>
+<p>Improved junction rebuild reuse, local edit restoration, road tiling and paint projection.
+The separate example project adds an experimental editable Cape Town network.
+See <a href="#ultimate-road-tool-1-2-0-experimental-gis-example">GISExample guide</a> for installation, data attribution and known limits.</p><hr><h2 id="road-editor-and-optional-surface-wear">Road Editor and optional surface wear</h2>
+<p>2026-09-09. The first dedicated authoring mode replaces dependence on a held Alt key with explicit tools and click-to-place previews. Open <strong>Road Editor</strong> in the editor mode dropdown or use the toolbar road icon. The console command <code>Street.Editor</code> opens the same mode.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Road tool reference table"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Shortcut inside Road Editor</th>
+<th>Workflow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Select</td>
+<td>Q</td>
+<td>Select a road and move its node dots with the translate gizmo.</td>
+</tr>
+<tr>
+<td>New road</td>
+<td>N</td>
+<td>Choose a profile, click a start and an end to create a standalone road. Use Extend when starting from an existing road.</td>
+</tr>
+<tr>
+<td>Extend</td>
+<td>E</td>
+<td>Pick a node or centerline once, then keep clicking to extend from each new endpoint. Nearby snap targets create connections in the same transaction; the chain can continue from that junction.</td>
+</tr>
+<tr>
+<td>Connect</td>
+<td>C</td>
+<td>Click a free endpoint and then a valid snap target on another road. Unsnapped placement is rejected.</td>
+</tr>
+<tr>
+<td>Add node</td>
+<td>I</td>
+<td>Click a centerline to insert a shape-preserving node.</td>
+</tr>
+<tr>
+<td>Snapping</td>
+<td>S</td>
+<td>Toggle road snapping. The panel exposes its radius in centimeters.</td>
+</tr>
+<tr>
+<td>Cancel</td>
+<td>Esc</td>
+<td>Cancel the current preview; a second Esc returns to Select.</td>
+</tr>
+<tr>
+<td>Compact / full view</td>
+<td>Tab</td>
+<td>Switch between the full side panel and a floating toolbar at the bottom of the active viewport. The current preview and tool stay active.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Right mouse camera navigation retains its normal keys. Outside Road Editor, Unreal retains its shortcuts. Ctrl+Z undoes placement. Changing tools, leaving the mode or undoing clears the pending preview. A source curve or transform change invalidates a pending placement.</p>
+<p>Each click in an Extend chain is one independent Undo transaction. Esc finishes without removing already placed sections. An invalid destination keeps the current anchor so it can be corrected. Switching views preserves the anchor, destination, snapping and profile. The compact toolbar provides all five tools, snapping, placement feedback and Finish; Full panel restores the profile, dimensions and wear controls. The view preference is stored in the user's editor configuration, not the map. The overlay follows the active viewport and is removed when leaving Road Editor.</p>
+<p>Cursor snapping resolves a hit road to its centreline at the target's elevation, including clicks away from the centreline. Hits on generated junctions resolve through their bound road mouths. Cross-level connections still need a valid grade (maximum 30 percent), at least 20 degrees between junction arms, and enough length beyond both corner setbacks. Extend creates a straight connector; a shallow motorway-style merge or a curved slip road is not an automatic connection type. Rejection feedback identifies the start/target or displays the required length/grade.</p>
+<p>Generated junctions now include an underside and perimeter fascia. The bottom shares each kit's actual tilted lower mouth vertices and reuses the surface triangulation, with no extra actor, component or tick. Material slot 4 is the slab foundation and defaults to curb material. This closes elevated junctions for views from below; it does not generate bridge beams, supports or engineering structure.</p>
+<p>The panel shows phase instructions, placement length and valid snap feedback. End height offset grades a free placement relative to its anchor; snapping uses the target road elevation. New standalone roads use the chosen profile. Extensions inherit the source road's profile, dimensions, materials and wear settings. Width fields use meters and commit on Enter/focus loss; zero disables a sidewalk. Profile widths can be restored with one button.</p>
+<h3 id="surface-wear">Surface wear</h3>
+<p>Each road and profile owns an instanced <code>UStreetSurfaceWearSettings</code> object. Roads inherit their profile by default. Untick <strong>Use Profile Defaults</strong> to customize <strong>Grime</strong>, <strong>Edge Dirt</strong> and <strong>Tire Wear</strong>, independently from 0 to 1. Zero is clean. The five supplied profiles demonstrate different subtle wear amounts; Industrial has the strongest default. This supplements the scanned asphalt, without enabling the old rectangular repair/crack mask.</p>
+<p>Grime uses irregular broad deposition. Edge dirt accumulates near curbs. Wheel wear follows lane positions across road-aligned UVs and fades near junction mouths. Junctions average connected road grime; directional tire tracks and curb-edge dirt currently remain on the road arms. These are material effects, not physical potholes, traffic simulation or placed skid decals.</p>
+<p>Wear writes custom primitive data slots 5–8 (grime, dirt, tires, road length). Slots 0–4 retain their UV/width/seed contract. No per-road dynamic material instance, additional mesh, actor, tick or geometry rebuild is introduced for wear. The separate settings transaction object lets Undo update material data without rerunning actor construction. Profile edits intentionally visit their loaded users; individual road edits touch only their own components and registered junctions. Call <code>Apply()</code> after changing settings through runtime code/Blueprint.</p><hr><h2 id="surface-modules-and-materials">Surface modules and materials</h2>
+<p>Profiles are in <code>/StreetSystem/Profiles/DA_Road_&lt;Style&gt;</code>. Assign a profile to a road and disable Override Dimensions to use its defaults. Enable dimension overrides to adjust the road and each sidewalk independently.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Road tool reference table"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">Road width</th>
+<th style="text-align: right;">Each sidewalk</th>
+<th>Default walk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Urban</td>
+<td style="text-align: right;">7 m</td>
+<td style="text-align: right;">2.4 m</td>
+<td>Brushed concrete</td>
+</tr>
+<tr>
+<td>Residential</td>
+<td style="text-align: right;">5.5 m</td>
+<td style="text-align: right;">1.8 m</td>
+<td>Brushed concrete</td>
+</tr>
+<tr>
+<td>Industrial</td>
+<td style="text-align: right;">9 m</td>
+<td style="text-align: right;">2 m</td>
+<td>Brushed concrete</td>
+</tr>
+<tr>
+<td>Boulevard</td>
+<td style="text-align: right;">14 m</td>
+<td style="text-align: right;">4 m</td>
+<td>Embedded tiles</td>
+</tr>
+<tr>
+<td>Heritage</td>
+<td style="text-align: right;">5 m</td>
+<td style="text-align: right;">2 m</td>
+<td>Embedded tiles</td>
+</tr>
+</tbody>
+</table></div>
+<p>All five use scanned asphalt. Dimensions are profile choices; the native source road is 700 cm wide. Modules extend along +X for 1,000 cm with Z up. Asphalt top is Z=0, bottom -12 cm. Curbs are 30 cm wide, native sidewalks 200 cm; top Z=15 and bottom Z=-20. Keep attachment profiles and pivots unchanged when customizing sources, then validate curved and graded joins. Use Blender FBX export and Unreal's Static Mesh reimport; generation scripts from the development repository are not required or included in this distribution.</p>
+<p>Road modules contain 84 triangles; curb/sidewalk modules 128 each. Longitudinal rings are 100 cm apart. Sources are under SourceAssets/RealisticRoads, with a separate BasicRoad kit for the basic and city examples.</p>
+<p>UV0 uses physical charts at a 200 cm period. U runs across, V along the road. UV1 classifies top/bottom (0), sides (-1) and caps (-2). Disable Generate Lightmap UVs on reimport: overwriting UV1 breaks exposed-face mapping. These movable modules do not use UV1 for baked lighting. Keep Allow CPU Access enabled for deformation.</p>
+<p>Custom primitive data 0..2 supplies tile width, length and phase; 3..4 supplies road width/identity. Slots 5..8 carry grime, dirt, tire wear and road length. Preserve these slots in custom materials. Generated corner paving follows the curved curb; asphalt junction mapping is local planar projection.</p>
+<p>Default scans use streamed 4K base color, normal and ORM maps. Base color is sRGB; normal and ORM are linear. OpenGL normals are imported with green flipped. ORM channels: neutral AO (R), supplied roughness (G), zero metal (B). Shared textures and primitive data avoid per-tile dynamic material instances. The 2 m asphalt repeat is an artistic choice, not a measured source scan span.</p>
+<p>Grime, edge dirt and tire wear are controlled in Road Editor or the road's Surface Wear settings. Zero is clean. These are shading effects and do not create physical damage. For a cracked asphalt variation, duplicate a supplied asphalt material instance and assign the included <code>PH_asphalt_02</code> textures from <code>/StreetSystem/Art/PolyHaven/Textures</code>.</p>
+<p>CC0 scan sources: <a href="https://ambientcg.com/view?id=Asphalt015">ambientCG Asphalt 015</a>, <a href="https://polyhaven.com/a/brushed_concrete_04">Poly Haven Brushed Concrete 04</a>, <a href="https://polyhaven.com/a/rock_embedded_tiles">Rock Embedded Tiles</a>, and <a href="https://polyhaven.com/a/asphalt_02">Asphalt 02</a>. Provenance records and original source maps are under SourceAssets/ThirdParty. The underlying scans are freely available; original module geometry and road tools are separate work.</p><hr><figure><img src="assets/markings.jpg" width="1920" height="1080" loading="lazy" alt="Road markings and crossings on editable Unreal roads"><figcaption>Painted lanes, arrows and crossing controls on the road surface.</figcaption></figure><h2 id="lane-layouts-and-road-paint">Lane layouts and road paint</h2>
+<p>Roads now generate a separate, road-only paint mesh from their profile. The Road Editor's <strong>Lanes &amp; Road Markings</strong> section has two-way, four-lane, one-way, cycle-lane and unmarked presets. With no road selected, it edits the current drawing profile and its loaded users. With a road selected, presets create an independent override. Disable <strong>Use Profile Defaults</strong> to customize individual lanes.</p>
+<p>Lanes are ordered left to right looking along the spline. Width weights divide the carriageway width; they are not widths in metres. Each lane has a use (driving, bus, cycle or parking), direction, arrow and right-hand separator. Opposing directions use the shared centre-line style. Choose none, dashed, solid or double-solid lines, white or yellow centre paint, line width, dash length and gap. The driving-side setting controls subsequently applied presets; individually authored lane directions remain explicit.</p>
+<p>Each end independently supports Auto, None, Stop or Yield and Auto, None or Zebra crossings. Crossing depth, stripe width, gap and setback are adjustable in centimetres. Auto adds stop approaches at junctions with at least three arms and crossings where the junction arm permits them. Two-arm continuations remain clear. Explicit controls also work on free ends. Short roads suppress approach details rather than drawing overlapping symbols. These are editable visual conventions, not a claim of compliance with any country's road standards.</p>
+<p>Paint materials can be replaced independently of asphalt. The included warm-white and yellow masked materials expose roughness and colour, with road-coordinate wear driven by the road's Wear setting. Transparent chips reveal the underlying asphalt; there is no opaque backing and nothing is projected onto sidewalks or a different road below.</p>
+<h3 id="geometry-and-editing-costs">Geometry and editing costs</h3>
+<p>Each road owns one combined, non-colliding paint component with shared materials. Lane, stop, crossing and arrow edits rebuild that component only. Asphalt spline components, sidewalks, collision and the spatial network index are retained. Changes to the spline invalidate the local paint surface cache; junction updates refresh only their registered arms. Paint uses an acceleration tree over the actual deformed asphalt triangles, with a 3.5 mm vertical separation. It is not projected onto terrain or an idealized spline height.</p>
+<p>Extension and split roads copy marking settings alongside the existing width and surface settings. The separate transactional marking object supports paint-only Undo. Shared profile changes intentionally visit all loaded inheriting roads.</p>
+<h3 id="examples-and-scope">Examples and scope</h3>
+<p>Open /StreetSystem/Maps/L_StreetSystem_Markings for editable lane layouts, raised approaches, turn pockets and one-way roads. Source project fixtures may be customized.</p>
+<p>Use <strong>Along spline</strong>, <strong>Against spline</strong> and <strong>Apply lane counts &amp; road width</strong> to size driving lanes. Either direction can be zero for a one-way road. Each direction supports up to 12 lanes. Configure individual uses and arrows after applying counts.</p>
+<p>Turn pockets add physical width at incoming approaches. Enable Left turn or Right turn at Start or End, then adjust width, storage and taper in metres. Left/right follows approaching traffic. Short roads shorten pockets and suppress symbols without adequate room; roads below 16 metres do not generate pockets. These are approach widenings, not separate bypass roads. Lane changes on roads with pockets also rebuild their local geometry.</p>
+<p>Custom lane definitions are not wired to ZoneGraph profiles, Mass traffic, vehicle routing or pedestrian waiting behavior. Physical stop signs and signals remain separate work.</p><hr><figure><img src="assets/city.jpg" width="1920" height="1080" loading="lazy" alt="The experimental Cape Town network with 5,850 editable roads in Unreal"><figcaption>The separate geographic example: 5,850 editable roads. Experimental, flat-ground data interpretation.</figcaption></figure><h2 id="ultimate-road-tool-1-2-0-experimental-gis-example">Ultimate Road Tool 1.2.0 — experimental GIS example</h2>
+<p>The separate example download includes an editable Cape Town road network derived
+from municipal road centerlines, alongside the four maps supplied in the plugin.
+Install Ultimate Road Tool for UE 5.8 first, then open the example project.
+The startup map is the smaller Markings showcase. Open
+<code>/Game/GIS/Maps/L_CapeTown_Release_v120</code> explicitly to explore the geographic city.</p>
+<p>Every road is an ordinary editable StreetActor. Use Road Editor to select dots,
+reshape streets, change widths or sidewalks, and customize lane paint. Source IDs
+and street names remain in actor tags and the Outliner. The example is not baked.</p>
+<h3 id="what-the-example-demonstrates">What the example demonstrates</h3>
+<ul>
+<li>A geographic network using the same authoring tools as manually drawn roads.</li>
+<li>Latest junction, circle, median and named-ramp corrections in the prepared data.</li>
+<li>Local road editing and cached junction rebuilds.</li>
+<li>Five supplied surface styles and independent road paint settings in the plugin.</li>
+</ul>
+<h3 id="experimental-scope">Experimental scope</h3>
+<p>This is a flat-ground interpretation of 2D data, not a surveyed reconstruction.
+Road elevations, one-way rules, lane counts and sidewalks are provisional.
+Complex junctions and closely spaced carriageways can still overlap. Some sidewalk
+ends and traffic-circle connections need manual adjustment. It is not a finished
+city environment, a general GIS import UI, or automatic GeoScape terrain fitting.
+GeoScape and Ultimate Road Tool are separate products.</p>
+<p>The whole geographic map loads at once. Expect several minutes of loading and
+substantial memory use; a 64 GB development machine was used for the city work.
+Smaller maps are the recommended starting point. World Partition streaming,
+baked network LODs and constant whole-city performance are not supplied.
+Local-edit measurements are not viewport FPS or minimum-hardware guarantees.</p>
+<p>Traffic paint is visual authoring. Mass crowds, vehicle simulation, signal logic,
+pedestrian queues and bridge structures are not included.</p>
+<h3 id="geographic-data-attribution">Geographic data attribution</h3>
+<p>Road centerline data: City of Cape Town, Transport and Development Authority
+(TDA), Transport Management Centre, Goodwood. No City endorsement is implied.</p>
+<p>Source layer:
+<a href="https://citymaps.capetown.gov.za/agsext/rest/services/Theme_Based/ODP_SPLIT_6/FeatureServer/8">https://citymaps.capetown.gov.za/agsext/rest/services/Theme_Based/ODP_SPLIT_6/FeatureServer/8</a></p>
+<p>Open Data terms:
+<a href="https://www.capetown.gov.za/General/Terms-of-use-open-data">https://www.capetown.gov.za/General/Terms-of-use-open-data</a></p>
+<p>Open Data Policy 27781, approved 3 December 2020:
+<a href="https://www.capetown.gov.za/_documents/resource.capetown.gov.za/documentcentre/Documents/Bylaws%20and%20policies/Open_Data_Policy.pdf">https://www.capetown.gov.za/_documents/resource.capetown.gov.za/documentcentre/Documents/Bylaws%20and%20policies/Open_Data_Policy.pdf</a></p>
+<p>The policy defines open data as freely usable, shareable and adaptable for any
+purpose. The City supplies the data as-is without accuracy or fitness warranties.
+The municipal data is not claimed as Hungry Ghost's exclusive intellectual property.
+Our conversion changes coordinates, splits/fits curves, creates junctions and
+assigns provisional road profiles. The example retains the prepared data and its
+source provenance in Data/GIS. Source terms checked 11 September 2026.</p>
+<h2 id="faq">Frequently asked questions</h2>
+<details class="faq"><summary>Can I edit every road in the city example?</summary><p>Yes. Each street is an editable StreetActor, with spline points, widths, sidewalks and paint settings. The separate Cape Town example is experimental and may need manual junction cleanup; it is not a finished city environment.</p></details>
+<details class="faq"><summary>Does it include traffic, pedestrians or working signals?</summary><p>No. Road markings are visual authoring. ZoneGraph guides provide an integration starting point; vehicle simulation, Mass crowds, signal phases and pedestrian queues are not included.</p></details>
+<details class="faq"><summary>Can I use one-way roads and more than two lanes?</summary><p>Yes. Each direction supports zero to twelve lanes. Set Along spline and Against spline, apply the lane counts and width, then customize individual lane uses, arrows and separators.</p></details>
+<details class="faq"><summary>Does it work automatically with GeoScape?</summary><p>They are separate tools for complementary city workflows. This release does not include automatic GeoScape terrain fitting or a general GIS import interface.</p></details>
+<details class="faq"><summary>What helps keep editing responsive?</summary><p>Local edits refresh affected roads and junction arms. Paint-only edits retain asphalt and sidewalk geometry, and shared materials avoid per-tile material instances. Whole-city loading still has substantial memory and component costs; World Partition integration and baked road LODs are not supplied.</p></details>
+<details class="faq"><summary>Do I need Blender or an external subscription?</summary><p>No. The Unreal content is supplied. UE 5.8 on Windows is the validated editor target; Windows C++ tools are needed for source builds and packaging games. Other platforms have not been validated.</p></details>
+</article><footer><p>Ultimate Road Tool 1.2.0 · Hungry Ghost</p><a href="/">Back to Unreal Tools</a><p class="muted">Independent third-party tools. Not affiliated with or endorsed by Epic Games.</p></footer></main></div></body></html>

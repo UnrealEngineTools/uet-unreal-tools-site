@@ -13,7 +13,7 @@ class Page(HTMLParser):
         if tag=='h1':self.h1+=1
         for key in ['href','src']:
             if key in a:self.links.append(a[key])
-files=[ROOT/'index.html',*(ROOT/'deck-toolkit').rglob('index.html'),*(ROOT/'save-compatibility-lab').rglob('index.html')]
+files=[ROOT/'index.html',*(ROOT/'deck-toolkit').rglob('index.html'),*(ROOT/'save-compatibility-lab').rglob('index.html'),*(ROOT/'ultimate-road-tool').rglob('index.html')]
 pages={f:Page(f.read_text(encoding='utf-8')) for f in files}
 for f,p in pages.items():
     rendered=html.unescape(f.read_text(encoding='utf-8'))

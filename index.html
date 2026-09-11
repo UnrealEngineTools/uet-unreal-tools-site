@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Unreal Tools &#8212; Native tools for Unreal Engine developers</title>
-<meta name="description" content="Native Unreal Engine tools and documentation: Conduit, GeoScape, Ultimate Deck Building Toolkit and Save Compatibility Lab.">
+<meta name="description" content="Native Unreal Engine tools and documentation: Conduit, GeoScape, Ultimate Road Tool, Ultimate Deck Building Toolkit and Save Compatibility Lab.">
 <meta property="og:title" content="Unreal Tools &#8212; Native tools for Unreal Engine developers">
-<meta property="og:description" content="Explore native Unreal Engine tools: Conduit, GeoScape, Ultimate Deck Building Toolkit and Save Compatibility Lab.">
+<meta property="og:description" content="Explore native Unreal Engine tools: Conduit, GeoScape, Ultimate Road Tool, Ultimate Deck Building Toolkit and Save Compatibility Lab.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#09090C">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -63,6 +63,7 @@
       <button class="navtoggle" aria-label="Toggle menu" aria-controls="navmenu" aria-expanded="false" onclick="var m=document.getElementById('navmenu');this.setAttribute('aria-expanded',m.classList.toggle('open'))"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
       <div id="navmenu" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         <a class="nav-link" href="#tools" style="padding:8px 12px;font-size:14px;color:#A6A6B2;border-radius:8px">Tools</a>
+        <a class="nav-link" href="/ultimate-road-tool/" style="padding:8px 12px;font-size:14px;color:#DFBD79;border-radius:8px">Road Tool docs</a>
         <a class="nav-link" href="/deck-toolkit/" style="padding:8px 12px;font-size:14px;color:#DFBD79;border-radius:8px">Deck Toolkit docs</a>
         <a class="nav-link" href="/save-compatibility-lab/" style="padding:8px 12px;font-size:14px;color:#D9B56C;border-radius:8px">Save Lab docs</a>
         <a class="nav-link" href="#approach" style="padding:8px 12px;font-size:14px;color:#A6A6B2;border-radius:8px">Approach</a>
@@ -83,7 +84,7 @@
         Sharp, native tools for building in Unreal Engine.
       </h1>
       <p style="font-size:clamp(1.05rem,1.5vw,1.25rem);line-height:1.6;color:#A6A6B2;max-width:620px;margin:0 auto 34px">
-        Focused, native tools for your Unreal workflow. Build with AI, recreate real places, author cards and decks, and keep player saves working across releases.
+        Focused, native tools for your Unreal workflow. Build with AI, recreate real places, draw road networks, author cards and decks, and keep player saves working across releases.
       </p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center">
         <a class="btn-primary" href="https://conduit.unrealtools.com" style="display:inline-flex;align-items:center;gap:8px;padding:13px 24px;font-size:15px;font-weight:600;color:#fff;background:#0A84FF;border-radius:11px;box-shadow:0 1px 0 rgba(255,255,255,0.18) inset, 0 12px 34px -10px rgba(10,132,255,0.8)">
@@ -98,8 +99,16 @@
     <section id="tools" class="acReveal" style="max-width:1100px;margin:0 auto;padding:clamp(40px,6vw,72px) 24px">
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:28px">
         <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#4DB2FF">// the toolbox</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B76">Conduit &#183; GeoScape &#183; Deck Toolkit &#183; Save Lab</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B76">Conduit &#183; GeoScape &#183; Road Tool &#183; Deck Toolkit &#183; Save Lab</div>
       </div>
+
+      <!-- Ultimate Road Tool -->
+      <section class="tool-card" aria-labelledby="road-tool-title" style="border:1px solid #655238;border-radius:20px;padding:clamp(28px,3.5vw,44px);background:linear-gradient(160deg,#dfbd7914,#ffffff02);margin-bottom:16px">
+        <div style="display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:center">
+          <div><p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#DFBD79;letter-spacing:1px">ROAD AUTHORING / VERSION 1.2.0</p><h2 id="road-tool-title" style="font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-.03em;margin:14px 0">Ultimate Road Tool</h2><p style="font-size:19px;color:#F2E3C3;line-height:1.5;margin:0 0 12px">Your city starts here.</p><p style="color:#C4C4CE;font-size:15px;line-height:1.65">Draw connected roads inside Unreal. Shape widths and sidewalks, configure lanes and crossings, and add surface wear. Five surface styles and an experimental geographic city with 5,850 editable roads.</p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px"><a href="/ultimate-road-tool/" style="padding:11px 18px;border:1px solid #DFBD79;border-radius:8px;background:#DFBD79;color:#17140C;font-size:14px;font-weight:700">Explore the tool &amp; docs</a><a href="/ultimate-road-tool/#ultimate-road-tool-1-2-0-experimental-gis-example" style="padding:11px 18px;border:1px solid #655238;border-radius:8px;color:#DFBD79;font-size:14px">City example</a></div><p style="font-size:12px;color:#A7A7B4;line-height:1.6;margin:14px 0 0">UE 5.8 · Windows · Coming soon to Fab. Version 1.2.0 submitted for review.</p></div>
+          <a href="/ultimate-road-tool/" aria-label="Explore Ultimate Road Tool"><img src="/ultimate-road-tool/assets/cover.jpg" alt="Ultimate Road Tool: a surfaced Unreal road intersection with lane paint and crossings" width="1920" height="1080" loading="lazy" style="width:100%;border-radius:10px;border:1px solid #655238"></a>
+        </div>
+      </section>
 
       <!-- Save Compatibility Lab -->
       <div class="tool-card" id="save-compatibility-lab" style="border:1px solid #34433D;border-radius:20px;padding:clamp(28px,3.5vw,44px);background:linear-gradient(160deg,#15231E,#0A100E);margin-bottom:16px">
@@ -250,6 +259,7 @@
             <div style="display:flex;flex-direction:column;gap:10px">
               <a class="foot-link" href="https://conduit.unrealtools.com" style="font-size:14px;color:#A6A6B2">Conduit</a>
               <a class="foot-link" href="https://geoscape.unrealtools.com" style="font-size:14px;color:#A6A6B2">GeoScape</a>
+              <a class="foot-link" href="/ultimate-road-tool/" style="font-size:14px;color:#DFBD79">Ultimate Road Tool docs</a>
               <a class="foot-link" href="/deck-toolkit/" style="font-size:14px;color:#DFBD79">Deck Toolkit docs</a>
               <a class="foot-link" href="/save-compatibility-lab/" style="font-size:14px;color:#D9B56C">Save Compatibility Lab docs</a>
             </div>

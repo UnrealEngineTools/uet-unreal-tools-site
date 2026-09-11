@@ -8,6 +8,7 @@ for name in ['index.html','favicon.svg']:
     shutil.copy2(ROOT/name,OUT/name)
 shutil.copytree(ROOT/'deck-toolkit',OUT/'deck-toolkit',dirs_exist_ok=True)
 shutil.copytree(ROOT/'save-compatibility-lab',OUT/'save-compatibility-lab',dirs_exist_ok=True)
+shutil.copytree(ROOT/'ultimate-road-tool',OUT/'ultimate-road-tool',dirs_exist_ok=True)
 with zipfile.ZipFile(ROOT/'site-upload.zip','w',zipfile.ZIP_DEFLATED) as z:
     for f in sorted(OUT.rglob('*')):
         if f.is_file():z.write(f,f.relative_to(OUT).as_posix())
