@@ -125,3 +125,14 @@ verified public storefront URL after publication. Do not use a publisher portal 
 Validated desktop and 390px mobile layout, documentation anchors, expandable FAQ,
 and loaded cover images. Geographic limitations and plugin installation requirements
 are explicit next to the example download.
+
+### Road Tool deployment verification
+
+September 11, 2026: deployed source commit `5203ce7` to the existing
+`unrealtools-site` Cloudflare Pages production project through the signed-in
+dashboard. Cloudflare confirmed 30/30 files uploaded and deployment success.
+
+Verified the live homepage Road Tool entry and navigation to
+https://www.unrealtools.com/ultimate-road-tool/ in a browser. All three product
+images loaded, chapter anchors worked, and the R2 download URLs matched the
+verified release artifacts. Desktop/mobile and FAQ checks passed locally.
